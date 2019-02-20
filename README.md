@@ -1,11 +1,9 @@
-![Logo](https://pngimage.net/wp-content/uploads/2018/05/android-png-15.png)
+![Logo](https://www.androidcentral.com/sites/androidcentral.com/files/styles/large/public/postimages/684/lloyd_2.jpg)
 
 
 #Teste
-Exercício de Lógica
-
-
-Versão: 0.1
+###Exercício de Lógica
+####Versão: 0.1
 
 
 Entradas:
