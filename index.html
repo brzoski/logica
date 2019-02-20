@@ -1,0 +1,273 @@
+<html>
+
+<head>
+	<title></title>
+	<meta charset="UTF-8" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<style>
+		td {
+			background-color: rgb(104, 209, 18);
+			color: rgba(255, 255, 255, 0.65);
+			font-size: 15px;
+			height: 90px;
+			width: 90px;
+			margin: 5px;
+			vertical-align: text-top;
+			/*text-align: center;*/
+		}
+
+		/*
+			Cada classe recebe um número para se tornar única
+			.block_5 {
+				background-color: red
+			}
+			*/
+	</style>
+</head>
+
+<script type="text/javascript">
+	
+	/*
+	lines = '';
+	columns = '';
+	position = '';
+	orientation = '';
+	*/
+	
+	var lines   = parseInt(prompt("Escolha o comprimento da área"));
+	var columns = parseInt(prompt("Escolha a larguda da área"));
+	var position = parseInt(prompt("Escolha a posição", "1"));
+	var orientation = prompt("Escolha a orientação usando a primeira letra da posição ex: Para Sul use s", "s");
+
+	if(orientation == 'n'){
+		orientation = 1
+	} else if( orientation == 'l'){
+		orientation = 2
+	} else if( orientation == 's'){
+		orientation = 3
+	} else {
+		orientation = 4
+	}
+	alert(position);
+	count = 0;
+	total = lines * columns;
+	const blocks = [];
+
+	/* Valores da Primeira Coluna*/
+	const first_columns = [];
+	a = 1;
+	while (a < total) {
+		first_columns.push(a);
+		a = a + columns;
+	}
+
+	/* Valores da Segunda Coluna */
+	const last_columns = [];
+	b = columns;
+	while (b <= total) {
+		last_columns.push(b);
+		b = b + columns;
+	}
+
+
+	/* Cria Plataforma */
+	while (count <= total) {
+		blocks.push(0);
+		count++;
+	} 
+</script>
+
+<table id="table">
+	<tr id="line01"></tr>
+	<script>
+		line = 1;
+		for (i = 1; i <= total; i++) {
+			var node = document.createElement("td");                 // Create a <li> node
+			var textnode = document.createTextNode(i);          // Create a text node
+			node.appendChild(textnode);                              // Append the text to <li>
+			document.getElementById("line0" + line).appendChild(node).setAttribute('class', 'block_' + i);     // Append <li> to <ul> with id="myList" 
+			//console.log( i );
+			if (i % columns == 0) { // Identificar Última Coluna
+				line++;
+				var node = document.createElement("tr");
+				document.getElementById("table").appendChild(node).setAttribute('id', 'line0' + line);
+			}
+			//document.getElementsByClassName("block_5")[0].style.backgroundColor = 'red';
+		}
+	</script>
+	</tr>
+</table>
+
+
+<div>
+</div>
+
+
+<script>
+	/** Robot Position */
+	/*
+		Norte = N / 1
+		Sul   = S / 3
+		Leste = L / 2
+		Oeste = O / 4
+	
+	- D para virar 90º para a direita +90
+	- E para virar 90º para a esquerda -90
+	- M para movimentar o robô
+	- I ação de irrigação
+	*/
+
+
+	irrigados = [];
+
+	// Imagem Inicial
+	$('.block_' + position).css('background-image', 'url(images/0' + orientation + '.png)');
+
+	// Eventos do Teclado
+	function tecla(event) {
+		var x = event.which || event.keyCode;
+		//alert(x);
+		if (x == 68 || x == 69 || x == 73 || x == 77) {
+			alert('Utilize Letras Minúsculas');
+		}
+
+		/*
+			Tecla d - 100
+			Mudar o Fundo e orientação Dir. - Sentido Horário
+		*/
+		if (x == 100) {
+			if (orientation == 4) {
+				orientation = 1;
+			} else {
+				orientation++;
+			}
+			$('.block_' + position).css('background-image', 'url(images/0' + orientation + '.png)');
+		}
+
+		/*
+			Tecla e - 101
+			Mudar o Fundo e orientação Esq. - Sentido Anti Horário
+		*/
+		if (x == 101) {
+			if (orientation == 1) {
+				orientation = 4;
+			} else {
+				orientation = orientation - 1;
+			}
+			$('.block_' + position).css('background-image', 'url(images/0' + orientation + '.png)');
+		}
+
+		/*
+			Tecla m - 109
+			Movimentar 
+		*/
+		if (x == 109) {
+			// Remove Imagem das Posições
+			$('td').css('background-image', 'none');
+
+			/* Nova Posição */
+
+			// Se estiver no Norte
+			if (orientation == 1) {
+				// Para subir uma linha, usa a Linha Atual - 'menos' Número de Coluna
+				position = position - columns;
+				//Posição não pode ultrapasar o máximo e mínimo de blocos senão desfaz operação exibindo não permitido
+				if (position >= 1 && position <= total) {
+					$('.block_' + position).css('background-image', 'url(images/0' + orientation + '.png)');
+				} else {
+					alert('Fora, posição ' + position + ' inválida');
+					position = position + columns;
+					$('.block_' + position).css('background-image', 'url(images/0' + orientation + '.png)');
+				}
+			}
+			else if (orientation == 3) { // Sul
+
+				// Para descer uma linha, usa a Linha Atual + Número de Coluna
+				position = position + columns;
+
+				//Posição não pode ultrapasar o máximo e mínimo de blocos senão desfaz operação exibindo não permitido
+				if (position >= 1 && position <= total) {
+					$('.block_' + position).css('background-image', 'url(images/0' + orientation + '.png)');
+				} else {
+					alert('Fora, posição ' + position + ' inválida');
+					position = position - columns;
+					$('.block_' + position).css('background-image', 'url(images/0' + orientation + '.png)');
+				}
+
+			}
+			else if (orientation == 2) { // Leste
+				// Para andar para a direita acrescentamos +1 e não somar se form um número superior a última coluna 
+				// ou não andar se for divisivel pelo valor da coluna
+
+				if (last_columns.indexOf(position) == -1) { // Não permite sair 
+
+					position = position + 1;
+					if (position >= 1 && position <= total) {
+						$('.block_' + position).css('background-image', 'url(images/0' + orientation + '.png)');
+					} else {
+						position = position - 1;
+						$('.block_' + position).css('background-image', 'url(images/0' + orientation + '.png)');
+						alert('Não pode sair para fora');
+					}
+
+				} else {
+					alert('fora');
+					$('.block_' + position).css('background-image', 'url(images/0' + orientation + '.png)');
+				}
+
+			} else { // Resta Oeste
+
+				if (first_columns.indexOf(position) == -1) { // Não permite sair da Primeira Coluna
+					// Não andar se valor for menor que a primeira coluna (coluna -1)
+					position = position - 1;
+					if (position >= 1 && position <= total) {
+						$('.block_' + position).css('background-image', 'url(images/0' + orientation + '.png)');
+					} else {
+						position = position + 1;
+						$('.block_' + position).css('background-image', 'url(images/0' + orientation + '.png)');
+						alert('Não pode sair para fora');
+					}
+				} else {
+					alert('fora');
+					$('.block_' + position).css('background-image', 'url(images/0' + orientation + '.png)');
+				}
+
+			}
+
+		}
+
+
+		/*
+			Tecla i - 105
+			Mudar o Fundo quando disparado e armazena posição que foi irrigado em um array
+		*/
+
+		if (x == 105) {
+			/* Muda Cor onde Irrigou */
+			$('.block_' + position).css('background-color', 'cornflowerblue');
+			/* Armazena no Array*/
+			irrigados.push(position);
+			
+			rota = irrigados;
+
+			//console.log(irrigados);
+
+			// Filtra os repetidos e conta a quantidade de elementos no array se for igual ao total de blocos finalizou o preenchimento
+			unicos = jQuery.unique(irrigados);
+			if(unicos.length == total){
+				/* Exibe no Console a Rota */ 
+				alert('Tarefa concluída, verifique a rota de Campos Irrigados no Console pressionando f12');
+				console.log('Rota:' + rota);
+			}
+			
+		}
+
+
+	}
+
+	document.body.onkeypress = tecla;
+
+
+</script>
+
+</html>
