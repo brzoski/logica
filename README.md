@@ -1,9 +1,9 @@
 ![Logo](https://www.androidcentral.com/sites/androidcentral.com/files/styles/large/public/postimages/684/lloyd_2.jpg)
 
 
-#Teste
-###Exercício de Lógica
-####Versão: 0.1
+# Teste
+### Exercício de Lógica
+#### Versão: 0.1
 
 
 Entradas:
