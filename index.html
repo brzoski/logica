@@ -262,16 +262,21 @@
 			/* Armazena no Array*/
 			irrigados.push(position);
 			
-			rota = irrigados;
 
 			//console.log(irrigados);
 
 			// Filtra os repetidos e conta a quantidade de elementos no array se for igual ao total de blocos finalizou o preenchimento
-			unicos = jQuery.unique(irrigados);
+			var unicos = irrigados.filter(function(este, i) {
+    			return irrigados.indexOf(este) == i;
+			})
+			
+			
 			if(unicos.length == total){
+
 				/* Exibe no Console a Rota */ 
-				alert('Tarefa concluída, verifique a rota de Campos Irrigados no Console pressionando f12');
-				console.log('Rota:' + rota);
+				alert('Tarefa concluída, verifique a rota de Campos Irrigados no Console pressionando f12 ' + unicos.length);
+				console.log('Rota:' + irrigados);
+
 			}
 			
 		}
