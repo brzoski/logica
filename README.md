@@ -17,3 +17,6 @@ Teclas:
 - E para virar 90º para a esquerda
 - M para movimentar o robô
 - I ação de irrigação
+
+
+### Ao Finalizar a irrigação exibe as rotas irrigadas no Console
